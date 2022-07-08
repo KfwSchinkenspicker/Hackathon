@@ -3,6 +3,7 @@
 # Robin hat was geändert
 
 # Jona hat was geändert #schickenspicker
+# Ann-Christin hat was geändert
 
 ## Intro
 
@@ -34,4 +35,3 @@ Die Applikation besteht im wesentlichen aus drei Seiten
 # Documentation
 
 > Ihr könnt hier eure Dokumentation zu den Herausforderungen hinzufügen oder euch im Team auf eine eigene Dokumentations Struktur einigen
-
