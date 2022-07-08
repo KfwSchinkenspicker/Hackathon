@@ -2,6 +2,8 @@
 
 # Robin hat was geändert
 
+# Jona hat was geändert #schickenspicker
+
 ## Intro
 
 Es handelt sich um eine (ältere) "three-tier" Applikation mit frontend, api, database.
