@@ -55,13 +55,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: 'Build and push image'
-      uses: azure/docker-login@v1
-      with:
-        login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
-        username: ${{ secrets.REGISTRY_USERNAME }}
-        password: ${{ secrets.REGISTRY_PASSWORD }}
-    - run: |
-        docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ matrix.project }}:${{ github.sha }}
-        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ matrix.project }}:${{ github.sha }}
+    - run: docker login ${{ secrets.REGISTRY_LOGIN_SERVER }} -u ${{ secrets.REGISTRY_USERNAME }} -p ${{ secrets.REGISTRY_PASSWORD }}
+      working-directory: 'application/${{ matrix.project }}'
+    - run: docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ matrix.project }}:${{ github.sha }}
+      working-directory: 'application/${{ matrix.project }}'
+    - run: docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ matrix.project }}:${{ github.sha }}
       working-directory: 'application/${{ matrix.project }}'
