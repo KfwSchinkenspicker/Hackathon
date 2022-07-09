@@ -37,4 +37,14 @@ Die Applikation besteht im wesentlichen aus drei Seiten
 
 # Documentation
 
-> Ihr könnt hier eure Dokumentation zu den Herausforderungen hinzufügen oder euch im Team auf eine eigene Dokumentations Struktur einigen
+
+```sh
+docker compose build
+docker tag application_api schinkenspickermanual.azurecr.io/application_api:latest
+docker tag application_frontend schinkenspickermanual.azurecr.io/application_frontend:latest
+docker tag application_mongo-seed schinkenspickermanual.azurecr.io/application_mongo-seed:latest
+az acr login -n schinkenspickermanual
+docker push schinkenspickermanual.azurecr.io/application_frontend:latest
+docker push schinkenspickermanual.azurecr.io/application_mongo-seed:latest
+docker push schinkenspickermanual.azurecr.io/application_api:latest
+```
