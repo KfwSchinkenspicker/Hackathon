@@ -19,7 +19,7 @@ provider "azurerm" {
 # Create a resource group
 resource "azurerm_resource_group" "schinkenspicker" {
   name     = "schinkenspicker"
-  location = "West Europe"
+  location = "East US"
 }
 
 # Create Registry
