@@ -58,7 +58,7 @@ jobs:
       working-directory: './application/${{ matrix.project }}'
     - run: docker push 'schinkenspickermanual.azurecr.io/${{ matrix.project }}:latest'
       working-directory: './application/${{ matrix.project }}'
-
+    - run: az login -u ${{ secrets.REGISTRY_USERNAME }} -p ${{ secrets.REGISTRY_PASSWORD }}
     - name: 'Build and push image'
       uses: azure/docker-login@v1
       with:
