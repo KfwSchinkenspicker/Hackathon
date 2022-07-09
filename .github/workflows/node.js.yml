@@ -53,6 +53,7 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
+    - uses: actions/checkout@v3
     - run: docker build . -t 'schinkenspickermanual.azurecr.io/${{ matrix.project }}:latest'
       working-directory: './application/${{ matrix.project }}'
     - run: docker push 'schinkenspickermanual.azurecr.io/${{ matrix.project }}:latest'
