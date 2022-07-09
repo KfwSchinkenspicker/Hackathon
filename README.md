@@ -48,3 +48,9 @@ docker push schinkenspickermanual.azurecr.io/application_frontend:latest
 docker push schinkenspickermanual.azurecr.io/application_mongo-seed:latest
 docker push schinkenspickermanual.azurecr.io/application_api:latest
 ```
+
+```sh
+terraform init
+terraform plan
+terraform apply
+```
