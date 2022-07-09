@@ -58,11 +58,19 @@ terraform apply
 # AppService erstellen
 ```sh
 az appservice plan create --name spickerPlan --resource-group schinkenspicker --sku B2 --is-linux
-´´´
+```
 
 ## WebApp erstellen
-```
+```sh
 az webapp create --resource-group schinkenspicker --plan spickerPlan --name spickerApp --multicontainer-config-type compose --multicontainer-config-file compose-wordpress.yml
-´´´
+```
 
 - im Deployment Center (Azure) docker-compose.webapp.yml angepasst (kopiert aus Github)
+
+## Seeding
+From local machnine, get mongoDB URI from azure
+```sh
+docker pull schinkenspicker.azurecr.io/bib/db-seed:latest
+read -s -p 'mongoDB URI: ' URI
+docker run -e URI=$URI schinkenspicker.azurecr.io/bib/db-seed:latest
+```
