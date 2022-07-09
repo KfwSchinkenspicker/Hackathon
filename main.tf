@@ -11,6 +11,8 @@ terraform {
 
 # Configure the Microsoft Azure Provider
 provider "azurerm" {
+  tenant_id = "bfe3e775-4326-4a0a-92dc-b73064a9ce24"
+  subscription_id = "c7eecf81-6171-4cc0-96c3-4bd3382787af"
   features {}
 }
 
@@ -20,10 +22,10 @@ resource "azurerm_resource_group" "schinkenspicker" {
   location = "West Europe"
 }
 
-# Create a virtual network within the resource group
-resource "azurerm_virtual_network" "schinkenspicker" {
+# Create Registry
+resource "azurerm_container_registry" "schinkenspicker_registry" {
   name                = "schinkenspicker"
   resource_group_name = azurerm_resource_group.schinkenspicker.name
   location            = azurerm_resource_group.schinkenspicker.location
-  address_space       = ["10.0.0.0/16"]
+  sku                 = "Standard"
 }
