@@ -47,13 +47,14 @@ jobs:
   
   
     runs-on: ubuntu-latest
-           
     strategy:
       matrix:
         node-version: [14.x]
         project: [frontend, api, db-seed]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
+    defaults:
+      run:
+       working-directory: 'application/${{ matrix.project }}'
     steps:
     - name: 'Build and push image'
       uses: azure/docker-login@v1
@@ -61,7 +62,6 @@ jobs:
         login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
-    - run: |
-        docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ matrix.project }}:${{ github.sha }}
-        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ matrix.project }}:${{ github.sha }}
-      working-directory: 'application/${{ matrix.project }}'
+    - run: docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ matrix.project }}:${{ github.sha }}
+    - run: docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ matrix.project }}:${{ github.sha }}
+      
