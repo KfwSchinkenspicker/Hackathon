@@ -1,27 +1,12 @@
 version: "3"
 services:
-  mongodb:
-    image: schinkenspicker.azurecr.io/bib/mongo:5
-
-  mongo-seed: #this is used to populate the DB, see dockerfile for import command
-    build:
-      context: ./db-seed
-      args:
-        HOST: mongodb
-    image: schinkenspicker.azurecr.io/bib/mongo-seed:webapp
-    depends_on:
-      - mongodb
-
   api:
     build:
       context: ./api
     image: schinkenspicker.azurecr.io/bib/api
-    depends_on:
-      - mongodb
     environment:
       PORT: 4000
-      # MONGO_URI: ${MONGO_URI}
-      MONGO_URI: mongodb://mongodb:27017/dobook
+      MONGO_URI: ${MONGO_URI}
 
   frontend:
     build:
