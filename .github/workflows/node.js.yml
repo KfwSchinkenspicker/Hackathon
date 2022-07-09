@@ -18,8 +18,7 @@ jobs:
     defaults:
       run:
        working-directory: ./application
-       
-       
+           
     strategy:
       matrix:
         node-version: [14.x]
@@ -33,7 +32,36 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-        cache-dependency-path: ./package-lock.json
+        cache-dependency-path: './application/${{ matrix.project }}/package-lock.json'
+        
     - run: npm ci
+      working-directory: './application/${{ matrix.project }}'
     - run: npm run build --if-present
+      working-directory: './application/${{ matrix.project }}'
     - run: npm test
+      working-directory: './application/${{ matrix.project }}'
+
+
+  build:
+    needs: test
+  
+  
+    runs-on: ubuntu-latest
+           
+    strategy:
+      matrix:
+        node-version: [14.x]
+        project: [frontend, api, db-seed]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - name: 'Build and push image'
+      uses: azure/docker-login@v1
+      with:
+        login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+    - run: |
+        docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ matrix.project }}:${{ github.sha }}
+        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ matrix.project }}:${{ github.sha }}
+      working-directory: 'application/${{ matrix.project }}'
