@@ -54,3 +54,15 @@ terraform init
 terraform plan
 terraform apply
 ```
+
+# AppService erstellen
+```sh
+az appservice plan create --name spickerPlan --resource-group schinkenspicker --sku B2 --is-linux
+´´´
+
+## WebApp erstellen
+```
+az webapp create --resource-group schinkenspicker --plan spickerPlan --name spickerApp --multicontainer-config-type compose --multicontainer-config-file compose-wordpress.yml
+´´´
+
+- im Deployment Center (Azure) docker-compose.webapp.yml angepasst (kopiert aus Github)
