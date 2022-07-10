@@ -74,3 +74,44 @@ docker pull schinkenspicker.azurecr.io/bib/db-seed:latest
 read -s -p 'mongoDB URI: ' URI
 docker run -e URI=$URI schinkenspicker.azurecr.io/bib/db-seed:latest
 ```
+
+## Policy
+- Create policy with parameter:
+```ps
+$policy = '{
+    "if": {
+        "allOf": [{
+                "field": "type",
+                "equals": "Microsoft.Storage/storageAccounts"
+            },
+            {
+                "not": {
+                    "field": "location",
+                    "in": "[parameters(''allowedLocations'')]"
+                }
+            }
+        ]
+    },
+    "then": {
+        "effect": "Deny"
+    }
+}'
+
+$parameters = '{
+    "allowedLocations": {
+        "type": "array",
+        "metadata": {
+            "description": "The list of locations that can be specified when deploying storage accounts.",
+            "strongType": "location",
+            "displayName": "Allowed locations"
+        }
+    }
+}'
+
+$definition = New-AzPolicyDefinition -Name 'storageLocations' -Description 'Policy to specify locations for storage accounts.' -Policy $policy -Parameter $parameters
+```
+
+- apply policy with parameter `locations = ['West Europe']`
+- look at policy dashboard
+	- 0% compliance
+- change parameter to `locations = ['West Europe', 'North Europe']`
